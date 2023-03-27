@@ -1,0 +1,5 @@
+package com.entregamercadoria.log.api.exceptionhandler;
+
+public class ApiExceptionHandler {
+
+}
