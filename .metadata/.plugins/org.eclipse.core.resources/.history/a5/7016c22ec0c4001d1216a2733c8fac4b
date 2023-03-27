@@ -1,8 +1,0 @@
-package com.entregamercadoria.log.api.controller;
-
-public class ClienteController {
-
-	public String listar() {
-		return "teste";
-	}
-}
