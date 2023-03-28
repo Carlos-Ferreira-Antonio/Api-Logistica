@@ -1,5 +1,0 @@
-package com.entregamercadoria.log.domain.repository;
-
-public interface ClienteRepository {
-
-}
