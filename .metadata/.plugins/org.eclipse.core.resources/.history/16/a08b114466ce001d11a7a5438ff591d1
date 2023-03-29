@@ -1,0 +1,61 @@
+package com.entregamercadoria.log.domain.model;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true) //gerar HashCode
+@Entity
+public class Entrega {
+	
+	@EqualsAndHashCode.Include //considerando apenas campo Id
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY) //Incrementar o id 
+	//O proprio banco incrementa pois declaramos como autoincrementavel
+	private Long id;
+	
+	@NotNull
+	@ManyToOne //Relacionamento muitos para 1  
+	//Muitas entregas possuem um cliente só
+	private Cliente cliente;
+	
+	@Embedded //Passar os dados para outra classe, porem mapeando para 
+	//mesma tabela da entidade Entrega
+	//Para ter mais organização
+	private Destinatario destinatario;
+	
+	@NotNull
+	private BigDecimal taxa;
+	
+	@JsonProperty(access = Access.READ_ONLY)
+	@Enumerated(EnumType.STRING) //Armazenar na coluna do BD o Enum como String
+	//E não como numero, na Enum StatusEntrega tem 1ª, 2ª e 3ª, não quero que apareça numeração no BD
+	//E sim o texto
+	private StatusEntrega status;
+	
+	@JsonProperty(access = Access.READ_ONLY)
+	private LocalDateTime dataPedido;
+	
+	//Não deixar colocar data de finalização da entrega (só leitura)
+	@JsonProperty(access = Access.READ_ONLY)
+	private LocalDateTime dataFinalizacao;
+	
+}
