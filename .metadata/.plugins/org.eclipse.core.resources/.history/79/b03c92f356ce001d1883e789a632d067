@@ -1,0 +1,5 @@
+spring.datasource.url=jdbc:mysql://localhost/logistica?createDatabaseIfNotExist=true&serverTimezone=UTC
+spring.datasource.username=root
+spring.datasource.password=carlos13
+jdbc:mysql://SERVER:PORT_NO/SCHEMA?sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
+spring.jpa.show-sql=true

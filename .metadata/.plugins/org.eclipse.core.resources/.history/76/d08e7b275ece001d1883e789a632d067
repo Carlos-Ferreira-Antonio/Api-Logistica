@@ -1,0 +1,16 @@
+package com.entregamercadoria.log;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class LogisticaApiApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(LogisticaApiApplication.class, args);
+	}
+	//Se não iniciar inserir no properties:
+	//logging.level.org.springframework.boot.autoconfigure=DEBUG
+	//OUTRO:
+	//jdbc:mysql://SERVER:PORT_NO/SCHEMA?sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
+}

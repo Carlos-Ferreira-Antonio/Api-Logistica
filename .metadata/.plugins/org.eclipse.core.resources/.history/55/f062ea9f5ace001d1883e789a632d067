@@ -1,0 +1,33 @@
+package com.entregamercadoria.log.domain.service;
+
+import java.time.LocalDateTime;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.entregamercadoria.log.domain.model.Entrega;
+import com.entregamercadoria.log.domain.model.StatusEntrega;
+import com.entregamercadoria.log.domain.repository.ClienteRepository;
+import com.entregamercadoria.log.domain.repository.EntregaRepository;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+@Service
+public class SolicitacaoEntregaService {
+
+	private ClienteRepository clienteRepository;
+	private EntregaRepository entregaRepository;
+	
+	@Transactional
+	public Entrega criarEntrega(Entrega entrega) {
+		//Validar se o cliente que é associado a entrega existe
+		clienteRepository.findById(entrega.getCliente().getId());
+		
+		entrega.setStatus(StatusEntrega.PENDENTE);
+		entrega.setDataPedido(LocalDateTime.now());
+		
+		return entregaRepository.save(entrega);
+	}
+	
+}
