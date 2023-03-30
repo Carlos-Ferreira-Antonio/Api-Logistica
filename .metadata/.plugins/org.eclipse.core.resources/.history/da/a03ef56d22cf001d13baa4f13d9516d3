@@ -1,0 +1,77 @@
+package com.entregamercadoria.log.api.controller;
+
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.entregamercadoria.log.api.assembler.EntregaAssembler;
+import com.entregamercadoria.log.api.model.EntregaModel;
+import com.entregamercadoria.log.domain.model.Entrega;
+import com.entregamercadoria.log.domain.repository.EntregaRepository;
+import com.entregamercadoria.log.domain.service.SolicitacaoEntregaService;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+@RestController
+@RequestMapping("/entregas")
+public class EntregaController {
+	
+	//Injetando
+	private EntregaRepository entregaRepository;
+	private SolicitacaoEntregaService solicitacaoEntregaService;
+	private EntregaAssembler entregaAssembler;
+	
+	
+	@PostMapping //Cadastrar entrega
+	@ResponseStatus(HttpStatus.CREATED) //para retornar status 201 criação de nova entrega 
+	public EntregaModel criar(@Valid @RequestBody EntregaModel entrega) {
+		return entregaAssembler.toModel(solicitacaoEntregaService.criarEntrega(entrega)) ;
+	}
+	
+	
+	@GetMapping //listar todas as entregas
+	public List<EntregaModel> listar() {
+		return entregaAssembler.toCollectionModel(entregaRepository.findAll());
+	}
+	
+	@GetMapping("/{entregaId}") //Busca entrega pelo código ID
+	public ResponseEntity<EntregaModel> buscar(@PathVariable Long entregaId) {
+		return entregaRepository.findById(entregaId)
+			  .map(entrega -> 
+				  //Convertendo a entrega para EntregaModel com o ModelMapper, para não precisar instanciar 
+				  //Nova Entrega model e ficar passando os valores para cada campo manualmente
+				  //EntregaModel entregaModel = modelMapper.map(entrega, EntregaModel.class);
+				  //Irei transferir para outra classe (EntregaAssembler) com responsabilidade unica para o projeto 
+				  //não ficar totalmente dependente dessa biblioteca
+				  
+				  /* Proximo commit excluir codigo redundante!
+				  EntregaModel entregaModel = new EntregaModel();
+				  entregaModel.setId(entrega.getId());
+				  entregaModel.setNomeCliente(entrega.getCliente().getNome());
+				  entregaModel.setDestinatario(new DestinatarioModel());
+				  entregaModel.getDestinatario().setNome(entrega.getDestinatario().getNome());
+				  entregaModel.getDestinatario().setLogradouro(entrega.getDestinatario().getLogradouro());
+				  entregaModel.getDestinatario().setNumero(entrega.getDestinatario().getNumero());
+				  entregaModel.getDestinatario().setComplemento(entrega.getDestinatario().getComplemento());
+				  entregaModel.getDestinatario().setBairro(entrega.getDestinatario().getBairro());
+				  entregaModel.setTaxa(entrega.getTaxa());
+				  entregaModel.setStatus(entrega.getStatus());
+				  entregaModel.setDataPedido(entrega.getDataPedido());
+				  entregaModel.setDataFinalizacao(entrega.getDataFinalizacao());
+				  */
+			  ResponseEntity.ok(entregaAssembler.toModel(entrega)))
+			  	.orElse(ResponseEntity.notFound().build());
+	}
+
+}

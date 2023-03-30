@@ -1,0 +1,21 @@
+package com.entregamercadoria.log.api.assembler;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
+
+import com.entregamercadoria.log.api.model.EntregaModel;
+import com.entregamercadoria.log.domain.model.Entrega;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+@Component
+public class EntregaAssembler {
+
+	private ModelMapper modelMapper;
+	//Metodo para transformar EntregaModel em Entrega
+	public EntregaModel toModel(Entrega entrega) {
+		return modelMapper.map(entrega, EntregaModel.class);
+	}
+	
+}
