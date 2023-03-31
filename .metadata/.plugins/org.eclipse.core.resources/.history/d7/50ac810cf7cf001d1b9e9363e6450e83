@@ -1,0 +1,37 @@
+package com.entregamercadoria.log.domain.service;
+
+import java.time.OffsetDateTime;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.entregamercadoria.log.domain.model.Cliente;
+import com.entregamercadoria.log.domain.model.Entrega;
+import com.entregamercadoria.log.domain.model.StatusEntrega;
+import com.entregamercadoria.log.domain.repository.EntregaRepository;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+@Service
+public class SolicitacaoEntregaService {
+
+	private CatalogoClienteService catalogoClienteService;
+	private EntregaRepository entregaRepository;
+	
+	@Transactional
+	public Entrega criarEntrega(Entrega entrega) {
+		//Validar se o cliente que é associado a entrega existe
+		//O metodo lançar no Catalogo lança essa exceção
+		Cliente cliente = catalogoClienteService
+				.buscar(entrega.getCliente().getId());
+				
+		
+		entrega.setCliente(cliente);
+		entrega.setStatus(StatusEntrega.PENDENTE);
+		entrega.setDataPedido(OffsetDateTime.now());
+		
+		return entregaRepository.save(entrega);
+	}
+	
+}

@@ -1,0 +1,16 @@
+package com.entregamercadoria.log.common;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class ModelMapperConfig {
+
+	//Metodo anotado com Bean instancia, inicializa e configura um bean
+	//Que sera gerenciado pelo Spring e será disponibilizado para injeção em outras classes
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
+	}
+}

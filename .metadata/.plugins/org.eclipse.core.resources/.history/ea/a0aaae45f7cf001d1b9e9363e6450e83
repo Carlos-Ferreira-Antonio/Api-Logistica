@@ -1,0 +1,20 @@
+package com.entregamercadoria.log.domain.repository;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.entregamercadoria.log.domain.model.Cliente;
+
+@Repository
+public interface ClienteRepository extends JpaRepository<Cliente, Long> {
+	//Buscando cliente pelo nome exato
+	List<Cliente> findByNome(String nome);
+	//Buscando cliente, pelo sobrenome ou parte do nome
+	List<Cliente> findByNomeContaining(String nome);
+	//Buscando cliente, pelo email já cadastrado
+	Optional<Cliente> findByEmail(String email);
+	
+}
