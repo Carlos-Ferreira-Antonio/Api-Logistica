@@ -1,0 +1,24 @@
+package com.entregamercadoria.log.domain.service;
+
+import org.springframework.stereotype.Service;
+
+import com.entregamercadoria.log.domain.model.Entrega;
+import com.entregamercadoria.log.domain.model.Ocorrencia;
+import com.entregamercadoria.log.domain.repository.EntregaRepository;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+@Service
+public class RegistroOcorrenciaService {
+
+	//Injeção
+	private EntregaRepository entregaRepository;
+	
+	public Ocorrencia registrar(Long entregaId, String descricao) {
+		Entrega entrega = entregaRepository.findById(entregaId)
+				.orElseThrow()
+	}
+	
+	
+}

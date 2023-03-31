@@ -1,0 +1,23 @@
+package com.entregamercadoria.log.domain.service;
+
+import org.springframework.stereotype.Service;
+
+import com.entregamercadoria.log.domain.exception.NegocioException;
+import com.entregamercadoria.log.domain.model.Entrega;
+import com.entregamercadoria.log.domain.repository.EntregaRepository;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+@Service
+public class BuscaEntregaService {
+
+	//Injetar na classe
+	private EntregaRepository entregaRepository; 
+	
+	public Entrega buscar(entregaId) {
+		return entregaRepository.findById(entregaId)
+				.orElseThrow(()-> new NegocioException("Entrega não encontrada"));
+	}
+	
+}

@@ -1,0 +1,5 @@
+package com.entregamercadoria.log.api.assembler;
+
+public class OcorrenciaAssembler {
+
+}
